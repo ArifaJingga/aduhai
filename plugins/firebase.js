@@ -13,22 +13,11 @@ const firebaseConfig = {
     measurementId: "G-MP6JHC8Z7B"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const firestore = getFirestore(app);
-let auth;
-
-if (typeof window !== "undefined") {
-  auth = getAuth(app);
-  signInAnonymously(auth).catch((error) => {
-    console.error("Error signing in anonymously:", error);
-  });
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
 }
 
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.provide("firebase", app);
-  nuxtApp.provide("firestore", firestore);
-  if (auth) {
-    nuxtApp.provide("auth", auth);
-  }
-});
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+export { db, auth };
