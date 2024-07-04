@@ -34,32 +34,29 @@ export default {
     };
   },
   methods: {
-    async submitRecipe() {
-      try {
-        // Simpan resep ke Firestore
-        const docRef = await firestore.collection('resep').add({
-          Judul: this.judul,
-          Deskripsi: this.deskripsi,
-          "URL Gambar": this.urlGambar,
-          Asal: this.asal,
-          Kategori: this.kategori,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+   async submitRecipe() {
+  try {
+    console.log("Mengirim data ke Firestore...");
+    
+    const docRef = await firestore.collection('resep').add({
+      Judul: this.judul,
+      Deskripsi: this.deskripsi,
+      "URL Gambar": this.urlGambar,
+      Asal: this.asal,
+      Kategori: this.kategori,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
 
-        console.log("Resep berhasil ditambahkan!", docRef.id);
+    console.log("Resep berhasil ditambahkan!", docRef.id);
+    alert("Resep berhasil diunggah!");
+    this.$router.push('/');
 
-        // Menampilkan pesan sukses
-        alert("Resep berhasil diunggah!");
+  } catch (error) {
+    console.error("Error adding recipe: ", error);
+    alert(`Terjadi kesalahan saat mengunggah resep: ${error.message}`);
+  }
+}
 
-        // Redirect ke halaman utama
-        this.$router.push('/');
-
-      } catch (error) {
-        console.error("Error adding recipe: ", error);
-        // Menampilkan pesan error
-        alert("Terjadi kesalahan saat mengunggah resep.");
-      }
-    }
   }
 };
 </script>
