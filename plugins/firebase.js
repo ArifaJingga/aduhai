@@ -1,6 +1,7 @@
 // plugins/firebase.js
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDECd36hCzUEWzfKPEUwzOBhXChEo-13Ds",
@@ -12,11 +13,11 @@ const firebaseConfig = {
     measurementId: "G-MP6JHC8Z7B"
 };
 
-// Inisialisasi Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-  }
-  
-  const firestore = firebase.firestore();
-  
-  export { firestore };
+}
+
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+export { db, auth };
