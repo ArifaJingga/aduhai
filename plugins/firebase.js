@@ -12,13 +12,13 @@ const firebaseConfig = {
     measurementId: "G-MP6JHC8Z7B"
 };
 
-const app = initializeApp(firebaseConfig);
-
-// Initialize Firestore
-const db = getFirestore(app);
-
-export default (context, inject) => {
-  inject('firebase', app);
-  inject('firestore', db);
+let app = null;
+if (!firebase.apps.length) {
+  app = firebase.initializeApp(firebaseConfig);
 }
 
+export default (context, inject) => {
+  inject('fire', firebase);
+  inject('fireModule', firebase);
+  inject('fireStore', firebase.firestore());
+};
