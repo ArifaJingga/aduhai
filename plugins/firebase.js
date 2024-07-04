@@ -12,13 +12,11 @@ const firebaseConfig = {
     measurementId: "G-MP6JHC8Z7B"
 };
 
-let app = null;
+// Inisialisasi Firebase
 if (!firebase.apps.length) {
-  app = firebase.initializeApp(firebaseConfig);
-}
-
-export default (context, inject) => {
-  inject('fire', firebase);
-  inject('fireModule', firebase);
-  inject('fireStore', firebase.firestore());
-};
+    firebase.initializeApp(firebaseConfig);
+  }
+  
+  const firestore = firebase.firestore();
+  
+  export { firestore };
