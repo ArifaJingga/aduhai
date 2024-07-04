@@ -23,6 +23,9 @@
 </template>
 
 <script>
+import { firestore } from '~/plugins/firebase.js';
+import firebase from 'firebase/app';
+
 export default {
   data() {
     return {
@@ -34,27 +37,28 @@ export default {
     };
   },
   methods: {
-   async submitRecipe() {
-  try {
-    console.log("Mengirim data ke Firestore...");
-    
-    const docRef = await firestore.collection('resep').add({
-      Judul: this.judul,
-      Deskripsi: this.deskripsi,
-      "URL Gambar": this.urlGambar,
-      Asal: this.asal,
-      Kategori: this.kategori,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    async submitRecipe() {
+      try {
+        console.log("Mengirim data ke Firestore...");
+        
+        const docRef = await firestore.collection('resep').add({
+          Judul: this.judul,
+          Deskripsi: this.deskripsi,
+          "URL Gambar": this.urlGambar,
+          Asal: this.asal,
+          Kategori: this.kategori,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
 
-    console.log("Resep berhasil ditambahkan!", docRef.id);
-    alert("Resep berhasil diunggah!");
-    this.$router.push('/');
+        console.log("Resep berhasil ditambahkan!", docRef.id);
+        alert("Resep berhasil diunggah!");
+        this.$router.push('/');
 
-  } 
-  }
-}
-
+      } catch (error) {
+        console.error("Error adding recipe: ", error);
+        alert(`Terjadi kesalahan saat mengunggah resep: ${error.message}`);
+      }
+    }
   }
 };
 </script>
