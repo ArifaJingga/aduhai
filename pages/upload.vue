@@ -23,9 +23,6 @@
 </template>
 
 <script>
-import { db } from '~/plugins/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-
 export default {
   data() {
     return {
