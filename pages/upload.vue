@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { firestore } from '~/plugins/firebase.js';
+
 export default {
   data() {
     return {
@@ -37,13 +39,13 @@ export default {
     async submitRecipe() {
       try {
         // Simpan resep ke Firestore
-        const docRef = await this.$fireStore.collection('resep').add({
+        const docRef = await firestore.collection('resep').add({
           Judul: this.judul,
           Deskripsi: this.deskripsi,
           "URL Gambar": this.urlGambar,
           Asal: this.asal,
           Kategori: this.kategori,
-          createdAt: this.$fireModule.firestore.FieldValue.serverTimestamp()
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
         console.log("Resep berhasil ditambahkan!", docRef.id);
@@ -56,9 +58,6 @@ export default {
 
       } catch (error) {
         console.error("Error adding recipe: ", error);
-        console.error("Error code: ", error.code);
-        console.error("Error message: ", error.message);
-        console.error("Error stack: ", error.stack);
         // Menampilkan pesan error
         alert("Terjadi kesalahan saat mengunggah resep.");
       }
