@@ -1,18 +1,19 @@
-
 // plugins/firebase.js
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBIuPiqHUi2Makb9yVqBK2NK3zDeZZUpiQ",
-    authDomain: "reecfeff.firebaseapp.com",
-    projectId: "reecfeff",
-    storageBucket: "reecfeff.appspot.com",
-    messagingSenderId: "687779412300",
-    appId: "1:687779412300:web:8b4545df77facae2f637e9",
-    measurementId: "G-66EBPC65XN"
-}
+    apiKey: "AIzaSyDECd36hCzUEWzfKPEUwzOBhXChEo-13Ds",
+    authDomain: "reecheff-85538.firebaseapp.com",
+    projectId: "reecheff-85538",
+    storageBucket: "reecheff-85538.appspot.com",
+    messagingSenderId: "25886082530",
+    appId: "1:25886082530:web:f6cd4b99ecdc95501325bb",
+    measurementId: "G-MP6JHC8Z7B"
+};
 
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const db = firebaseApp.firestore();
 
-
+export { db };
 
