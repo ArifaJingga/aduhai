@@ -13,23 +13,40 @@
       <section>
         <h2>Resep Terbaru</h2>
         <div class="section-content">
-          <div v-for="recipe in recentRecipes" :key="recipe.id" class="recipe-card">
-            <nuxt-link :to="'/recipe/' + recipe.id">
-              <img :src="recipe['URL Gambar']" :alt="recipe.Judul">
-              <h3>{{ recipe.Judul }}</h3>
-              <p>{{ recipe.Deskripsi }}</p>
-            </nuxt-link>
-          </div>
+          <nuxt-link to="/recipe/MieAceh" class="recipe-card">
+            <img src="/assets/mie aceh.jpg" alt="Mie Aceh">
+            <h3>Mie Aceh</h3>
+            <p>Mie Aceh adalah makanan yang berasal dari Aceh.</p>
+          </nuxt-link>
+          
+          <nuxt-link to="/recipe/ketoprak" class="recipe-card">
+            <img src="/assets/ketoprak.jpg" alt="Ketoprak">
+            <h3>Ketoprak</h3>
+            <p>Ketoprak adalah makanan dari Jawa Barat.</p>
+          </nuxt-link>
+          <nuxt-link to="/recipe/sup-ayam" class="recipe-card">
+            <img src="/assets/sup ayam.jpg" alt="Sup Ayam">
+            <h3>Sup Ayam</h3>
+            <p>Sup Ayam adalah makanan dari Bali.</p>
+          </nuxt-link>
         </div>
         <h2>Resep Populer</h2>
         <div class="section-content">
-          <div v-for="recipe in popularRecipes" :key="recipe.id" class="recipe-card">
-            <nuxt-link :to="'/recipe/' + recipe.id">
-              <img :src="recipe['URL Gambar']" :alt="recipe.Judul">
-              <h3>{{ recipe.Judul }}</h3>
-              <p>{{ recipe.Deskripsi }}</p>
-            </nuxt-link>
-          </div>
+          <nuxt-link to="/recipe/bika-ambon" class="recipe-card">
+            <img src="/assets/bika ambon.jpg" alt="Bika Ambon">
+            <h3>Bika Ambon</h3>
+            <p>Bika Ambon adalah makanan dari Medan.</p>
+          </nuxt-link>
+          <nuxt-link to="/recipe/gudeg" class="recipe-card">
+            <img src="/assets/gudeg.jpeg" alt="Gudeg">
+            <h3>Gudeg</h3>
+            <p>Gudeg adalah makanan dari Yogyakarta.</p>
+          </nuxt-link>
+          <nuxt-link to="/recipe/kerak-telur" class="recipe-card">
+            <img src="/assets/kerak telur.jpg" alt="Kerak Telur">
+            <h3>Kerak Telur</h3>
+            <p>Kerak Telur adalah makanan dari Betawi.</p>
+          </nuxt-link>
         </div>
       </section>
     </main>
@@ -37,46 +54,35 @@
 </template>
 
 <script>
-import { firestore } from '~/plugins/firebase'; // Pastikan file ini ada
-
 export default {
   data() {
     return {
-      recentRecipes: [],
-      popularRecipes: []
+      recipes: []
     };
   },
   async mounted() {
     try {
-      // Ambil data resep terbaru dari koleksi 'resep' di Firestore
-      const recentSnapshot = await firestore.collection('resep')
-                                           .orderBy('createdAt', 'desc')
-                                           .limit(6)
-                                           .get();
+      // Ambil data resep dari Firestore, urutkan berdasarkan createdAt descending
+      const querySnapshot = await this.$fire.firestore.collection('recipes')
+                                    .orderBy('createdAt', 'desc')
+                                    .get();
 
-      this.recentRecipes = recentSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-
-      // Ambil data resep populer dari koleksi 'resep' di Firestore
-      const popularSnapshot = await firestore.collection('resep')
-                                             .orderBy('popularity', 'desc') // Pastikan Anda memiliki field 'popularity'
-                                             .limit(6)
-                                             .get();
-
-      this.popularRecipes = popularSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      // Simpan data resep ke dalam array recipes
+      querySnapshot.forEach(doc => {
+        this.recipes.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
 
     } catch (error) {
       console.error("Error fetching recipes: ", error);
-      alert("Terjadi kesalahan saat mengambil data resep.");
+      // Handle error, tampilkan pesan error, dll.
     }
   }
 };
 </script>
+
 
 <style>
 body {
@@ -109,7 +115,7 @@ nav a {
   color: #ffffff;
   background-color: #cc5200;
   padding: 10px 20px;
-  text-decoration: none;
+  text-decoration: none; /* Remove underline */
   border-radius: 20px;
   transition: background-color 0.3s, transform 0.3s;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -153,7 +159,7 @@ h2 {
   text-align: center;
   transition: transform 0.3s, box-shadow 0.3s;
   width: 300px;
-  text-decoration: none;
+  text-decoration: none; /* Ensure no underline */
 }
 
 .recipe-card img {
@@ -166,12 +172,14 @@ h2 {
   font-size: 1.5em;
   color: #333;
   margin: 10px 0;
+  text-decoration: none; /* Remove underline */
 }
 
 .recipe-card p {
   font-size: 1em;
   color: #777;
   margin: 0 10px 10px;
+  text-decoration: none; /* Remove underline */
 }
 
 .recipe-card:hover {
