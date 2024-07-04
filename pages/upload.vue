@@ -37,7 +37,7 @@ export default {
     async submitRecipe() {
       try {
         // Simpan resep ke Firestore
-        const docRef = await this.$fire.firestore.collection('resep').add({
+        const docRef = await this.$fireStore.collection('resep').add({
           Judul: this.judul,
           Deskripsi: this.deskripsi,
           "URL Gambar": this.urlGambar,
@@ -56,6 +56,9 @@ export default {
 
       } catch (error) {
         console.error("Error adding recipe: ", error);
+        console.error("Error code: ", error.code);
+        console.error("Error message: ", error.message);
+        console.error("Error stack: ", error.stack);
         // Menampilkan pesan error
         alert("Terjadi kesalahan saat mengunggah resep.");
       }
@@ -63,7 +66,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .container {
@@ -109,4 +111,3 @@ input, textarea {
   background-color: #cc5200;
 }
 </style>
-
