@@ -13,11 +13,22 @@ const firebaseConfig = {
     measurementId: "G-MP6JHC8Z7B"
 };
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const firestore = getFirestore(app);
+let auth;
+
+if (typeof window !== "undefined") {
+  auth = getAuth(app);
+  signInAnonymously(auth).catch((error) => {
+    console.error("Error signing in anonymously:", error);
+  });
 }
 
-const db = firebase.firestore();
-const auth = firebase.auth();
-
-export { db, auth };
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.provide("firebase", app);
+  nuxtApp.provide("firestore", firestore);
+  if (auth) {
+    nuxtApp.provide("auth", auth);
+  }
+});
