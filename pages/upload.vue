@@ -23,9 +23,6 @@
 </template>
 
 <script>
-import { firestore } from '~/plugins/firebase.js';
-import firebase from 'firebase/app';
-
 export default {
   data() {
     return {
