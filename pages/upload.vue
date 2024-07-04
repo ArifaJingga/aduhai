@@ -51,9 +51,7 @@ export default {
     alert("Resep berhasil diunggah!");
     this.$router.push('/');
 
-  } catch (error) {
-    console.error("Error adding recipe: ", error);
-    alert(`Terjadi kesalahan saat mengunggah resep: ${error.message}`);
+  } 
   }
 }
 
